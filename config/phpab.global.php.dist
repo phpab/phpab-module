@@ -1,0 +1,10 @@
+<?php
+
+return [
+    'phpab' => [
+        'analytics' => null,
+        'participation_strategy' => null,
+        'storage' => null,
+        'tests' => [],
+    ],
+];
