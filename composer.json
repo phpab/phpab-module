@@ -1,0 +1,56 @@
+{
+    "name": "phpab/phpab-module",
+    "type": "library",
+    "description": "A Zend Framework 2 module for AB testing.",
+    "keywords": [
+        "phpab",
+        "phpab-module",
+        "zf2",
+        "ab testing",
+        "testing",
+        "test",
+        "ab"
+    ],
+    "homepage": "https://github.com/phpab/phpab-module",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Walter Tamboer",
+            "email": "walter@tamboer.nl",
+            "homepage": "https://github.com/waltertamboer",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php" : "~5.5|~7.0",
+        "phpab/phpab": "dev-0.1.x-dev"
+    },
+    "require-dev": {
+        "phpunit/phpunit" : "^4.7",
+        "scrutinizer/ocular": "^1.3",
+        "squizlabs/php_codesniffer": "^2.5",
+        "zendframework/zend-mvc": "^2.7",
+        "zendframework/zend-servicemanager": "^2.7",
+        "zendframework/zend-modulemanager": "^2.7",
+        "zendframework/zend-view": "^2.6"
+    },
+    "autoload": {
+        "psr-4": {
+            "PhpAbModule\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "PhpAbModuleTest\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "phpunit"
+    },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../phpab"
+        }
+    ]
+}
