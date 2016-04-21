@@ -2,7 +2,7 @@
 
 namespace PhpAbModule\Controller\Plugin;
 
-use PhpAb\Engine\EngineInterface;
+use PhpAb\Participation\ParticipationManagerInterface;
 use Zend\Mvc\Controller\Plugin\AbstractPlugin;
 
 /**
@@ -11,18 +11,18 @@ use Zend\Mvc\Controller\Plugin\AbstractPlugin;
 class IsActive extends AbstractPlugin
 {
     /**
-     * @var EngineInterface The engine used to execute tests.
+     * @var ParticipationManagerInterface The participation manager used to check participation.
      */
-    private $engine;
+    private $participationManager;
 
     /**
      * Initializes a new instance of this class.
      *
-     * @param EngineInterface $engine The engine used to execute tests.
+     * @param ParticipationManagerInterface $participationManager The participation manager used to check participation.
      */
-    public function __construct(EngineInterface $engine)
+    public function __construct(ParticipationManagerInterface $participationManager)
     {
-        $this->engine = $engine;
+        $this->participationManager = $participationManager;
     }
 
     /**
@@ -34,8 +34,6 @@ class IsActive extends AbstractPlugin
      */
     public function __invoke($test, $variant)
     {
-        // TODO: Check if the test is active.
-
-        return false;
+        return $this->participationManager->participates($test, $variant);
     }
 }

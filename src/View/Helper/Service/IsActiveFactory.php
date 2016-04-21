@@ -10,8 +10,8 @@ class IsActiveFactory implements FactoryInterface
 {
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $engine = $serviceLocator->getServiceLocator()->get('PhpAbModule\\Engine');
+        $participationManager = $serviceLocator->getServiceLocator()->get('phpab.participation_manager');
 
-        return new IsActive($engine);
+        return new IsActive($participationManager);
     }
 }

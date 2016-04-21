@@ -44,7 +44,7 @@ class Module
         $serviceManager = $event->getParam('ServiceManager');
 
         /** @var EngineInterface $engine */
-        $engine = $serviceManager->get('PhpAbModule\\Engine');
+        $engine = $serviceManager->get('phpab.engine');
         $engine->start();
     }
 }

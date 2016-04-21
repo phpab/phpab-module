@@ -8,12 +8,15 @@ return [
     'phpab' => [
         'analytics' => null,
         'participation_strategy' => null,
-        'storage' => null,
+        'storage' => 'runtime',
         'tests' => [],
     ],
     'service_manager' => [
         'factories' => [
-            'PhpAbModule\\Engine' => 'PhpAbModule\\Service\\EngineFactory',
+            'phpab.dispatcher' => 'PhpAbModule\\Service\\DispatcherFactory',
+            'phpab.engine' => 'PhpAbModule\\Service\\EngineFactory',
+            'phpab.participation_manager' => 'PhpAbModule\\Service\\ParticipationManagerFactory',
+            'phpab.storage' => 'PhpAbModule\\Service\\StorageFactory',
         ],
     ],
     'view_helpers' => [
