@@ -2,6 +2,10 @@
 
 return [
     'phpab' => [
+        'default_filter' => 'phpab.default_filter',
+        'default_variant_chooser' => 'phpab.default_variant_chooser',
+        'storage' => 'runtime',
+        'storage_options' => [],
         'tests' => [],
     ],
 ];
