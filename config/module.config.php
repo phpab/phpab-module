@@ -6,13 +6,16 @@ return [
         ],
     ],
     'phpab' => [
-        'analytics' => null,
-        'participation_strategy' => null,
+        'default_filter' => 'phpab.default_filter',
+        'default_variant_chooser' => 'phpab.default_variant_chooser',
         'storage' => 'runtime',
+        'storage_options' => [],
         'tests' => [],
     ],
     'service_manager' => [
         'factories' => [
+            'phpab.default_filter' => 'PhpAbModule\\Service\\DefaultFilterFactory',
+            'phpab.default_variant_chooser' => 'PhpAbModule\\Service\\DefaultVariantChooserFactory',
             'phpab.dispatcher' => 'PhpAbModule\\Service\\DispatcherFactory',
             'phpab.engine' => 'PhpAbModule\\Service\\EngineFactory',
             'phpab.participation_manager' => 'PhpAbModule\\Service\\ParticipationManagerFactory',

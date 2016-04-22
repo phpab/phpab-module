@@ -3,6 +3,7 @@
 namespace PhpAbModule;
 
 use PhpAb\Engine\EngineInterface;
+use Zend\ModuleManager\Listener\ServiceListener;
 use Zend\ModuleManager\ModuleEvent;
 use Zend\ModuleManager\ModuleManagerInterface;
 use Zend\ServiceManager\ServiceManager;
