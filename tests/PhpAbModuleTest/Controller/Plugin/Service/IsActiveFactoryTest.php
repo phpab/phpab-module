@@ -2,7 +2,7 @@
 
 namespace PhpAbModuleTest\Controller\Plugin\Service;
 
-use PhpAb\Engine\EngineInterface;
+use PhpAb\Participation\ParticipationManagerInterface;
 use PhpAbModule\Controller\Plugin\IsActive;
 use PhpAbModule\Controller\Plugin\Service\IsActiveFactory;
 use PHPUnit_Framework_TestCase;
@@ -16,14 +16,14 @@ class IsActiveFactoryTest extends PHPUnit_Framework_TestCase
         // Arrange
         $factory = new IsActiveFactory();
 
-        $engine = $this->getMockForAbstractClass(EngineInterface::class);
+        $participationManager = $this->getMockForAbstractClass(ParticipationManagerInterface::class);
 
         $serviceManager = $this->getMockForAbstractClass(ServiceLocatorInterface::class);
         $serviceManager
             ->expects($this->once())
             ->method('get')
-            ->with($this->equalTo('PhpAbModule\\Engine'))
-            ->willReturn($engine);
+            ->with($this->equalTo('phpab.participation_manager'))
+            ->willReturn($participationManager);
 
         $serviceLocator = $this
             ->getMockBuilder(AbstractPluginManager::class)

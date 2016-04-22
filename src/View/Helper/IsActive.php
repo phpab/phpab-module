@@ -34,6 +34,6 @@ class IsActive extends AbstractHelper
      */
     public function __invoke($test, $variant)
     {
-        return $this->participationManager->participates($test, $variant);
+        return $this->participationManager->participates($test, $variant) === true;
     }
 }

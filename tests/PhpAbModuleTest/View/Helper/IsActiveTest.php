@@ -3,16 +3,23 @@
 namespace PhpAbModuleTest\View\Helper\Plugin;
 
 use PhpAb\Engine\EngineInterface;
+use PhpAb\Participation\ParticipationManagerInterface;
 use PhpAbModule\View\Helper\IsActive;
 use PHPUnit_Framework_TestCase;
 
 class IsActiveTest extends PHPUnit_Framework_TestCase
 {
+    private $participationManager;
+
+    protected function setUp()
+    {
+        $this->participationManager = $this->getMockForAbstractClass(ParticipationManagerInterface::class);
+    }
+
     public function testInvokeWithValidTestAndVariant()
     {
         // Arrange
-        $engine = $this->getMockForAbstractClass(EngineInterface::class);
-        $plugin = new IsActive($engine);
+        $plugin = new IsActive($this->participationManager);
 
         // Act
         $result = $plugin('test', 'variant');
@@ -24,8 +31,7 @@ class IsActiveTest extends PHPUnit_Framework_TestCase
     public function testInvokeWithInvalidTest()
     {
         // Arrange
-        $engine = $this->getMockForAbstractClass(EngineInterface::class);
-        $plugin = new IsActive($engine);
+        $plugin = new IsActive($this->participationManager);
 
         // Act
         $result = $plugin('non-existing-test', 'variant');
@@ -37,8 +43,7 @@ class IsActiveTest extends PHPUnit_Framework_TestCase
     public function testInvokeWithInvalidVariant()
     {
         // Arrange
-        $engine = $this->getMockForAbstractClass(EngineInterface::class);
-        $plugin = new IsActive($engine);
+        $plugin = new IsActive($this->participationManager);
 
         // Act
         $result = $plugin('test', 'non-existing-variant');

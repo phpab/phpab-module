@@ -55,7 +55,7 @@ class ModuleTest extends PHPUnit_Framework_TestCase
         $serviceManager
             ->expects($this->once())
             ->method('get')
-            ->with($this->equalTo('PhpAbModule\\Engine'))
+            ->with($this->equalTo('phpab.engine'))
             ->willReturn($engine);
         $engine->expects($this->once())->method('start');
 
