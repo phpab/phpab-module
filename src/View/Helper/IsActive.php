@@ -29,11 +29,11 @@ class IsActive extends AbstractHelper
      * Checks if the test with the given variant is active.
      *
      * @param string $test The identifier of the test to check for activity.
-     * @param string $variant The identifier of the variant to check for activity.
+     * @param string $variant An optional identifier of the variant to check for activity.
      * @return bool
      */
-    public function __invoke($test, $variant)
+    public function __invoke($test, $variant = null)
     {
-        return $this->participationManager->participates($test, $variant) === true;
+        return $this->participationManager->participates($test, $variant) !== false;
     }
 }

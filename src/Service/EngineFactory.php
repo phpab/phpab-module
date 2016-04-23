@@ -96,12 +96,12 @@ class EngineFactory implements FactoryInterface
     private function loadTestVariant(ServiceLocatorInterface $serviceLocator, $type, array $options)
     {
         switch ($type) {
-            case 'simple':
-                $variant = $this->loadTestVariantSimple($serviceLocator, $options);
-                break;
-
             case 'callback':
                 $variant = $this->loadTestVariantCallback($serviceLocator, $options);
+                break;
+
+            case 'simple':
+                $variant = $this->loadTestVariantSimple($serviceLocator, $options);
                 break;
 
             default:

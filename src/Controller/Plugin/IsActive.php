@@ -34,6 +34,6 @@ class IsActive extends AbstractPlugin
      */
     public function __invoke($test, $variant)
     {
-        return $this->participationManager->participates($test, $variant) === true;
+        return $this->participationManager->participates($test, $variant) !== false;
     }
 }
