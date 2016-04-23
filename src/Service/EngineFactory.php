@@ -9,7 +9,9 @@ use PhpAb\Participation\ParticipationManagerInterface;
 use PhpAb\Test\Test;
 use PhpAb\Variant\CallbackVariant;
 use PhpAb\Variant\SimpleVariant;
+use PhpAbModule\Variant\EventManagerVariant;
 use RuntimeException;
+use Zend\EventManager\EventManager;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -104,6 +106,10 @@ class EngineFactory implements FactoryInterface
                 $variant = $this->loadTestVariantCallback($serviceLocator, $identifier, $options);
                 break;
 
+            case 'event_manager':
+                $variant = $this->loadTestVariantEventManager($serviceLocator, $identifier, $options);
+                break;
+
             case 'simple':
                 $variant = $this->loadTestVariantSimple($serviceLocator, $identifier, $options);
                 break;
@@ -128,6 +134,29 @@ class EngineFactory implements FactoryInterface
         }
 
         return new CallbackVariant($identifier, $options['callback']);
+    }
+
+    private function loadTestVariantEventManager(ServiceLocatorInterface $serviceLocator, $identifier, array $options)
+    {
+        if (empty($options['event_manager'])) {
+            $eventManager = $serviceLocator->get('Application')->getEventManager();
+        } else {
+            $eventManager = $serviceLocator->get($options['event_manager']);
+        }
+
+        $callback = $options['callback'];
+
+        if (!is_callable($callback) && $serviceLocator->has($callback)) {
+            $callback = $serviceLocator->get($callback);
+        }
+
+        return new EventManagerVariant(
+            $eventManager,
+            $identifier,
+            $options['event'],
+            $callback,
+            $options['priority']
+        );
     }
 
     private function loadTestVariantSimple(ServiceLocatorInterface $serviceLocator, $identifier, array $options)
