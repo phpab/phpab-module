@@ -80,30 +80,39 @@ class EngineFactory implements FactoryInterface
     {
         $variants = [];
 
-        foreach ($config['variants'] as $variant) {
+        foreach ($config['variants'] as $identifier => $variant) {
+
+            // We also support shortcuts so that the user can specify a service name straight away.
+            if (is_string($variant)) {
+                $variant = [
+                    'type' => $variant,
+                ];
+            }
+
             if (!array_key_exists('type', $variant)) {
                 throw new RuntimeException('The type of the variant is missing.');
             }
 
             $options = empty($variant['options']) ? [] : $variant['options'];
 
-            $variants[] = $this->loadTestVariant($serviceLocator, $variant['type'], $options);
+            $variants[] = $this->loadTestVariant($serviceLocator, $variant['type'], $identifier, $options);
         }
 
         return $variants;
     }
 
-    private function loadTestVariant(ServiceLocatorInterface $serviceLocator, $type, array $options)
+    private function loadTestVariant(ServiceLocatorInterface $serviceLocator, $type, $identifier, array $options)
     {
         switch ($type) {
             case 'callback':
-                $variant = $this->loadTestVariantCallback($serviceLocator, $options);
+                $variant = $this->loadTestVariantCallback($serviceLocator, $identifier, $options);
                 break;
 
             case 'simple':
-                $variant = $this->loadTestVariantSimple($serviceLocator, $options);
+                $variant = $this->loadTestVariantSimple($serviceLocator, $identifier, $options);
                 break;
 
+            case 'service_manager':
             default:
                 $variant = $this->loadTestVariantFromServiceManager($serviceLocator, $type);
                 break;
@@ -112,12 +121,8 @@ class EngineFactory implements FactoryInterface
         return $variant;
     }
 
-    private function loadTestVariantCallback(ServiceLocatorInterface $serviceLocator, array $options)
+    private function loadTestVariantCallback(ServiceLocatorInterface $serviceLocator, $identifier, array $options)
     {
-        if (!array_key_exists('identifier', $options)) {
-            throw new RuntimeException('Missing "identifier" for callback variant.');
-        }
-
         if (!array_key_exists('callback', $options)) {
             throw new RuntimeException('Missing "callback" for callback variant.');
         }
@@ -126,22 +131,18 @@ class EngineFactory implements FactoryInterface
             throw new RuntimeException('The "callback" for callback variant cannot be called.');
         }
 
-        return new CallbackVariant($options['identifier'], $options['callback']);
+        return new CallbackVariant($identifier, $options['callback']);
     }
 
-    private function loadTestVariantSimple(ServiceLocatorInterface $serviceLocator, array $options)
+    private function loadTestVariantSimple(ServiceLocatorInterface $serviceLocator, $identifier, array $options)
     {
-        if (!array_key_exists('identifier', $options)) {
-            throw new RuntimeException('Missing "identifier" for simple variant.');
-        }
-
-        return new SimpleVariant($options['identifier']);
+        return new SimpleVariant($identifier);
     }
 
     private function loadTestVariantFromServiceManager(ServiceLocatorInterface $serviceLocator, $type)
     {
         if (!$serviceLocator->has($type)) {
-            throw new RuntimeException(sprintf('The variant "%s" could not be loaded.', $type));
+            throw new RuntimeException(sprintf('The variant "%s" is not a valid service manager name.', $type));
         }
 
         return $serviceLocator->get($type);
