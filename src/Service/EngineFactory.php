@@ -47,17 +47,13 @@ class EngineFactory implements FactoryInterface
 
     private function loadTests(EngineInterface $engine, ServiceLocatorInterface $serviceLocator, $config)
     {
-        foreach ($config['tests'] as $key => $testConfig) {
-            $this->loadTest($serviceLocator, $engine, $testConfig);
+        foreach ($config['tests'] as $identifier => $testConfig) {
+            $this->loadTest($serviceLocator, $engine, $identifier, $testConfig);
         }
     }
 
-    private function loadTest(ServiceLocatorInterface $serviceLocator, EngineInterface $engine, array $config)
+    private function loadTest(ServiceLocatorInterface $serviceLocator, EngineInterface $engine, $identifier, array $config)
     {
-        if (!array_key_exists('identifier', $config)) {
-            throw new RuntimeException('Missing the "identifier" for the test.');
-        }
-
         $filter = null;
         if (array_key_exists('filter', $config)) {
             $filter = $serviceLocator->get($config['filter']);
@@ -71,7 +67,7 @@ class EngineFactory implements FactoryInterface
         $variants = $this->loadTestVariants($serviceLocator, $config);
         $options = array_key_exists('options', $config) ? $config['options'] : [];
 
-        $test = new Test($config['identifier'], $variants);
+        $test = new Test($identifier, $variants);
 
         $engine->addTest($test, $options, $filter, $variantChooser);
     }
