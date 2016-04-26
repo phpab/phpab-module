@@ -21,6 +21,9 @@
             "role": "Developer"
         }
     ],
+    "scripts": {
+        "test": "phpunit"
+    },
     "require": {
         "php" : "~5.5|~7.0",
         "phpab/phpab": "dev-master"
@@ -43,14 +46,5 @@
         "psr-4": {
             "PhpAbModuleTest\\": "tests"
         }
-    },
-    "scripts": {
-        "test": "phpunit"
-    },
-    "repositories": [
-        {
-            "type": "path",
-            "url": "../phpab"
-        }
-    ]
+    }
 }
