@@ -9,13 +9,16 @@
 
 namespace PhpAbModuleTest\Controller\Plugin;
 
-use PhpAb\Engine\EngineInterface;
 use PhpAb\Participation\ParticipationManagerInterface;
 use PhpAbModule\Controller\Plugin\IsActive;
+use PHPUnit_Framework_MockObject_MockObject;
 use PHPUnit_Framework_TestCase;
 
 class IsActiveTest extends PHPUnit_Framework_TestCase
 {
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
     private $participationManager;
 
     protected function setUp()
@@ -23,10 +26,24 @@ class IsActiveTest extends PHPUnit_Framework_TestCase
         $this->participationManager = $this->getMockForAbstractClass(ParticipationManagerInterface::class);
     }
 
-    public function testInvokeWithValidTestAndVariant()
+    public function testWithParticipationManagerReturningTrue()
     {
         // Arrange
         $plugin = new IsActive($this->participationManager);
+        $this->participationManager->expects($this->once())->method('participates')->willReturn(true);
+
+        // Act
+        $result = $plugin('test', 'variant');
+
+        // Assert
+        $this->assertTrue($result);
+    }
+
+    public function testWithParticipationManagerReturningFalse()
+    {
+        // Arrange
+        $plugin = new IsActive($this->participationManager);
+        $this->participationManager->expects($this->once())->method('participates')->willReturn(false);
 
         // Act
         $result = $plugin('test', 'variant');
@@ -35,27 +52,16 @@ class IsActiveTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($result);
     }
 
-    public function testInvokeWithInvalidTest()
+    public function testWithParticipationManagerReturningVariant()
     {
         // Arrange
         $plugin = new IsActive($this->participationManager);
+        $this->participationManager->expects($this->once())->method('participates')->willReturn('variant');
 
         // Act
-        $result = $plugin('non-existing-test', 'variant');
+        $result = $plugin('test', 'variant');
 
         // Assert
-        $this->assertFalse($result);
-    }
-
-    public function testInvokeWithInvalidVariant()
-    {
-        // Arrange
-        $plugin = new IsActive($this->participationManager);
-
-        // Act
-        $result = $plugin('test', 'non-existing-variant');
-
-        // Assert
-        $this->assertFalse($result);
+        $this->assertTrue($result);
     }
 }
