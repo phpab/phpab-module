@@ -41,6 +41,10 @@ class ParticipationManagerFactoryTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf(Manager::class, $result);
     }
 
+    /**
+     * @expectedException RuntimeException
+     * @expectedExceptionMessage Missing service "phpab.storage" so cannot create participation manager.
+     */
     public function testCreateServiceWithMissingStorage()
     {
         // Arrange
@@ -52,12 +56,6 @@ class ParticipationManagerFactoryTest extends PHPUnit_Framework_TestCase
             ->willReturn(false);
 
         $service = new ParticipationManagerFactory();
-
-        // Assert
-        $this->setExpectedException(
-            'RuntimeException',
-            'Missing service "phpab.storage" so cannot create participation manager.'
-        );
 
         // Act
         $service->createService($serviceLocator);

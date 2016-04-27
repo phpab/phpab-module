@@ -20,6 +20,10 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 
 class StorageFactoryTest extends PHPUnit_Framework_TestCase
 {
+    /**
+     * @expectedException RuntimeException
+     * @expectedExceptionMessage Invalid storage provider set: unknown
+     */
     public function testCreateServiceWithInvalidStorage()
     {
         // Arrange
@@ -33,9 +37,6 @@ class StorageFactoryTest extends PHPUnit_Framework_TestCase
         ]);
 
         $service = new StorageFactory();
-
-        // Assert
-        $this->setExpectedException('RuntimeException', 'Invalid storage provider set: unknown');
 
         // Act
         $storage = $service->createService($serviceLocator);
