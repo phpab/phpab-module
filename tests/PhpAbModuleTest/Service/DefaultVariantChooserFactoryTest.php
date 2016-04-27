@@ -9,23 +9,23 @@
 
 namespace PhpAbModuleTest\Service;
 
-use PhpAb\Participation\PercentageFilter;
-use PhpAbModule\Service\DefaultFilterFactory;
+use PhpAb\Variant\RandomChooser;
+use PhpAbModule\Service\DefaultVariantChooserFactory;
 use PHPUnit_Framework_TestCase;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class DefaultFilterFactoryTest extends PHPUnit_Framework_TestCase
+class DefaultVariantChooserFactoryTest extends PHPUnit_Framework_TestCase
 {
     public function testCreateService()
     {
         // Arrange
         $serviceLocator = $this->getMockForAbstractClass(ServiceLocatorInterface::class);
-        $service = new DefaultFilterFactory();
+        $service = new DefaultVariantChooserFactory();
 
         // Act
         $result = $service->createService($serviceLocator);
 
         // Assert
-        $this->assertInstanceOf(PercentageFilter::class, $result);
+        $this->assertInstanceOf(RandomChooser::class, $result);
     }
 }
