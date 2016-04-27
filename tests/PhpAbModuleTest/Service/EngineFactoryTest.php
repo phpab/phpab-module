@@ -252,7 +252,7 @@ class EngineFactoryTest extends PHPUnit_Framework_TestCase
         $factory = new EngineFactory();
 
         // Act
-        $engine = $factory->createService($this->createMockedServiceLocator($config));
+        $factory->createService($this->createMockedServiceLocator($config));
     }
 
     /**
