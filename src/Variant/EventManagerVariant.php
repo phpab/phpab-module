@@ -50,13 +50,33 @@ class EventManagerVariant implements VariantInterface
         $this->priority = 0;
     }
 
+    public function getEventManager()
+    {
+        return $this->eventManager;
+    }
+
     public function getIdentifier()
     {
         return $this->idenfier;
     }
 
+    public function getEventName()
+    {
+        return $this->eventName;
+    }
+
+    public function getCallback()
+    {
+        return $this->callback;
+    }
+
+    public function getPriority()
+    {
+        return $this->priority;
+    }
+
     public function run()
     {
-        $this->eventManager->attach($this->eventName, $this->callback, $this->priority);
+        $this->getEventManager()->attach($this->getEventName(), $this->getCallback(), $this->getPriority());
     }
 }

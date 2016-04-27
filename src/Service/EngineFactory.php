@@ -18,7 +18,6 @@ use PhpAb\Variant\CallbackVariant;
 use PhpAb\Variant\SimpleVariant;
 use PhpAbModule\Variant\EventManagerVariant;
 use RuntimeException;
-use Zend\EventManager\EventManager;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -35,8 +34,8 @@ class EngineFactory implements FactoryInterface
         /** @var DispatcherInterface $dispatcher */
         $dispatcher = $serviceLocator->get('phpab.dispatcher');
 
-        $filter = $this->loadService($serviceLocator, $config['phpab']['default_filter']);
-        $chooser = $this->loadService($serviceLocator, $config['phpab']['default_variant_chooser']);
+        $filter = $this->loadService($serviceLocator, $config['phpab'], 'default_filter');
+        $chooser = $this->loadService($serviceLocator, $config['phpab'], 'default_variant_chooser');
 
         $engine = new Engine($participationManager, $dispatcher, $filter, $chooser);
 
@@ -45,17 +44,25 @@ class EngineFactory implements FactoryInterface
         return $engine;
     }
 
-    private function loadService(ServiceLocatorInterface $serviceLocator, $serviceName)
+    private function loadService(ServiceLocatorInterface $serviceLocator, $config, $serviceName)
     {
-        if (!$serviceLocator->has($serviceName)) {
+        if (!array_key_exists($serviceName, $config)) {
             return null;
         }
 
-        return $serviceLocator->get($serviceName);
+        if (!$serviceLocator->has($config[$serviceName])) {
+            return null;
+        }
+
+        return $serviceLocator->get($config[$serviceName]);
     }
 
     private function loadTests(EngineInterface $engine, ServiceLocatorInterface $serviceLocator, $config)
     {
+        if (!array_key_exists('tests', $config)) {
+            return;
+        }
+        
         foreach ($config['tests'] as $identifier => $testConfig) {
             $this->loadTest($serviceLocator, $engine, $identifier, $testConfig);
         }
@@ -88,6 +95,10 @@ class EngineFactory implements FactoryInterface
     private function loadTestVariants(ServiceLocatorInterface $serviceLocator, $config)
     {
         $variants = [];
+
+        if (!array_key_exists('variants', $config)) {
+            return $variants;
+        }
 
         foreach ($config['variants'] as $identifier => $variant) {
             // We also support shortcuts so that the user can specify a service name straight away.
@@ -148,6 +159,18 @@ class EngineFactory implements FactoryInterface
 
     private function loadTestVariantEventManager(ServiceLocatorInterface $serviceLocator, $identifier, array $options)
     {
+        if (!array_key_exists('callback', $options)) {
+            throw new RuntimeException('Missing the "callback" option for event manager variant.');
+        }
+
+        if (!array_key_exists('event', $options)) {
+            throw new RuntimeException('Missing the "event" option for event manager variant.');
+        }
+
+        if (!array_key_exists('priority', $options)) {
+            $options['priority'] = 0;
+        }
+
         if (empty($options['event_manager'])) {
             $eventManager = $serviceLocator->get('Application')->getEventManager();
         } else {
@@ -158,6 +181,8 @@ class EngineFactory implements FactoryInterface
 
         if (!is_callable($callback) && $serviceLocator->has($callback)) {
             $callback = $serviceLocator->get($callback);
+        } elseif (!is_callable($callback)) {
+            throw new RuntimeException('The callback is not callable.');
         }
 
         return new EventManagerVariant(
