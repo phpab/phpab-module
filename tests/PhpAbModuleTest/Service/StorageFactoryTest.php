@@ -7,13 +7,13 @@
  * @license https://raw.githubusercontent.com/phpab/phpab-module/master/LICENSE MIT
  */
 
-namespace PhpAbModule\Service;
+namespace PhpAbModuleTest\Service;
 
 use PhpAb\Storage\Cookie;
 use PhpAb\Storage\Runtime;
 use PhpAb\Storage\Session;
+use PhpAbModule\Service\StorageFactory;
 use phpmock\functions\FixedValueFunction;
-use phpmock\Mock;
 use phpmock\MockBuilder;
 use PHPUnit_Framework_TestCase;
 use Zend\ServiceManager\ServiceLocatorInterface;
@@ -32,16 +32,13 @@ class StorageFactoryTest extends PHPUnit_Framework_TestCase
             ],
         ]);
 
+        $service = new StorageFactory();
+
         // Assert
         $this->setExpectedException('RuntimeException', 'Invalid storage provider set: unknown');
 
-        $service = new StorageFactory();
-
         // Act
         $storage = $service->createService($serviceLocator);
-
-        // Assert
-        $this->assertInstanceOf(Runtime::class, $storage);
     }
 
     public function testCreateServiceRuntime()
