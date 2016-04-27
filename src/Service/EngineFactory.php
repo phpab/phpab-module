@@ -61,8 +61,12 @@ class EngineFactory implements FactoryInterface
         }
     }
 
-    private function loadTest(ServiceLocatorInterface $serviceLocator, EngineInterface $engine, $identifier, array $config)
-    {
+    private function loadTest(
+        ServiceLocatorInterface $serviceLocator,
+        EngineInterface $engine,
+        $identifier,
+        array $config
+    ) {
         $filter = null;
         if (array_key_exists('filter', $config)) {
             $filter = $serviceLocator->get($config['filter']);
@@ -86,7 +90,6 @@ class EngineFactory implements FactoryInterface
         $variants = [];
 
         foreach ($config['variants'] as $identifier => $variant) {
-
             // We also support shortcuts so that the user can specify a service name straight away.
             if (is_string($variant)) {
                 $variant = [
