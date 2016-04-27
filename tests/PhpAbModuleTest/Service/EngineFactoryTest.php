@@ -901,4 +901,81 @@ class EngineFactoryTest extends PHPUnit_Framework_TestCase
         // Assert
         $this->assertEquals($callback, $engine->getTest('my-test')->getVariant('my-variant')->getCallback());
     }
+
+    /**
+     * @covers PhpAbModule\Service\EngineFactory::loadTestVariants
+     * @covers PhpAbModule\Service\EngineFactory::loadTestVariant
+     * @covers PhpAbModule\Service\EngineFactory::loadTestVariantFromServiceManager
+     * @expectedException RuntimeException
+     * @expectedExceptionMessage The variant "my_service_manager_variant" is not a valid service manager name.
+     */
+    public function testServiceManagerVariantWithInvalidService()
+    {
+        // Arrange
+        $config = [
+            'phpab' => [
+                'tests' => [
+                    'my-test' => [
+                        'filter' => 'my_filter',
+                        'variant_chooser' => 'my_variant_chooser',
+                        'variants' => [
+                            'my-variant' => [
+                                'type' => 'my_service_manager_variant',
+                            ],
+                        ],
+
+                    ],
+                ],
+            ],
+        ];
+
+        $factory = new EngineFactory();
+
+        // Act
+        $factory->createService($this->createMockedServiceLocator($config, true));
+    }
+
+    /**
+     * @covers PhpAbModule\Service\EngineFactory::loadTestVariants
+     * @covers PhpAbModule\Service\EngineFactory::loadTestVariant
+     * @covers PhpAbModule\Service\EngineFactory::loadTestVariantFromServiceManager
+     */
+    public function testServiceManagerVariant()
+    {
+        // Arrange
+        $config = [
+            'phpab' => [
+                'tests' => [
+                    'my-test' => [
+                        'filter' => 'my_filter',
+                        'variant_chooser' => 'my_variant_chooser',
+                        'variants' => [
+                            'my-variant' => [
+                                'type' => 'my_service_manager_variant',
+                            ],
+                        ],
+
+                    ],
+                ],
+            ],
+        ];
+
+        $serviceLocator = $this->createMockedServiceLocator($config, true);
+        $serviceLocator
+            ->expects($this->at(5))
+            ->method('has')
+            ->with($this->equalTo('my_service_manager_variant'))
+            ->willReturn(true);
+
+        $serviceLocator
+            ->expects($this->at(6))
+            ->method('get')
+            ->with($this->equalTo('my_service_manager_variant'))
+            ->willReturn(new SimpleVariant('my-variant'));
+
+        $factory = new EngineFactory();
+
+        // Act
+        $factory->createService($serviceLocator);
+    }
 }
