@@ -6,6 +6,10 @@ return [
         ],
     ],
     'phpab' => [
+        'analytics' => [
+            'collector' => null,
+            'renderer' => null,
+        ],
         'default_filter' => 'phpab.default_filter',
         'default_variant_chooser' => 'phpab.default_variant_chooser',
         'storage' => 'runtime',
@@ -25,6 +29,7 @@ return [
     'view_helpers' => [
         'factories' => [
             'phpAbIsActive' => 'PhpAbModule\\View\\Helper\\Service\\IsActiveFactory',
+            'phpAbScript' => 'PhpAbModule\\View\\Helper\\Service\\ScriptFactory',
         ],
     ],
 ];
