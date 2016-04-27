@@ -103,17 +103,22 @@ class EngineFactoryTest extends PHPUnit_Framework_TestCase
         // Arrange
         $config = [
             'phpab' => [
-                'default_filter' => 'test',
+                'default_filter' => 'my_filter',
             ],
         ];
+
+        // Assert
+        $serviceLocator = $this->createMockedServiceLocator($config);
+        $serviceLocator
+            ->expects($this->at(3))
+            ->method('has')
+            ->with($this->equalTo('my_filter'))
+            ->willReturn(false);
 
         $factory = new EngineFactory();
 
         // Act
-        $engine = $factory->createService($this->createMockedServiceLocator($config));
-
-        // Assert
-        $this->assertInstanceOf(EngineInterface::class, $engine);
+        $engine = $factory->createService($serviceLocator);
     }
 
     /**
@@ -124,16 +129,22 @@ class EngineFactoryTest extends PHPUnit_Framework_TestCase
         // Arrange
         $config = [
             'phpab' => [
-                'default_variant_chooser' => 'my_filter',
+                'default_variant_chooser' => 'my_variant_chooser',
             ],
         ];
+
+        // Assert
+        $serviceLocator = $this->createMockedServiceLocator($config);
+        $serviceLocator
+            ->expects($this->at(3))
+            ->method('has')
+            ->with($this->equalTo('my_variant_chooser'))
+            ->willReturn(false);
 
         $factory = new EngineFactory();
 
         // Act
-        $engine = $factory->createService($this->createMockedServiceLocator($config));
-
-        // Assert
+        $engine = $factory->createService($serviceLocator);
     }
 
 
@@ -149,24 +160,24 @@ class EngineFactoryTest extends PHPUnit_Framework_TestCase
             ],
         ];
 
+        // Assert
         $serviceLocator = $this->createMockedServiceLocator($config);
-//        $serviceLocator
-//            ->expects($this->never())
-//            ->method('has')
-//            ->with($this->equalTo('my_filter'))
-//            ->willReturn(true);
-//        $serviceLocator
-//            ->expects($this->never())
-//            ->method('get')
-//            ->with($this->equalTo('my_filter'))
-//            ->willReturn(new PercentageFilter(100));
+        $serviceLocator
+            ->expects($this->at(3))
+            ->method('has')
+            ->with($this->equalTo('my_filter'))
+            ->willReturn(true);
+
+        $serviceLocator
+            ->expects($this->at(4))
+            ->method('get')
+            ->with($this->equalTo('my_filter'))
+            ->willReturn(new PercentageFilter(100));
 
         $factory = new EngineFactory();
 
         // Act
-        $engine = $factory->createService($serviceLocator);
-
-        // Assert
+        $factory->createService($serviceLocator);
     }
 
     /**
@@ -181,19 +192,24 @@ class EngineFactoryTest extends PHPUnit_Framework_TestCase
             ],
         ];
 
+        // Assert
         $serviceLocator = $this->createMockedServiceLocator($config);
-//        $serviceLocator
-//            ->expects($this->at(4))
-//            ->method('get')
-//            ->with($this->equalTo('my_variant_chooser'))
-//            ->willReturn(new RandomChooser());
+        $serviceLocator
+            ->expects($this->at(3))
+            ->method('has')
+            ->with($this->equalTo('my_variant_chooser'))
+            ->willReturn(true);
+
+        $serviceLocator
+            ->expects($this->at(4))
+            ->method('get')
+            ->with($this->equalTo('my_variant_chooser'))
+            ->willReturn(new RandomChooser());
 
         $factory = new EngineFactory();
 
         // Act
-        $engine = $factory->createService($serviceLocator);
-
-        // Assert
+        $factory->createService($serviceLocator);
     }
 
     /**
