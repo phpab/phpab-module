@@ -10,6 +10,7 @@
 namespace PhpAbModule\View\Helper;
 
 use PhpAb\Analytics\Renderer\AbstractGoogleAnalytics;
+use PhpAb\Analytics\Renderer\RendererInterface;
 use Zend\View\Helper\AbstractHelper;
 
 /**
@@ -17,16 +18,19 @@ use Zend\View\Helper\AbstractHelper;
  */
 class Script extends AbstractHelper
 {
-    private $analytics;
+    /**
+     * @var RendererInterface
+     */
+    private $renderer;
 
     /**
      * Initializes a new instance of this class.
      *
-     * @param AbstractGoogleAnalytics $analytics The analytics to render a script for.
+     * @param RendererInterface $renderer The analytics to render a script for.
      */
-    public function __construct(AbstractGoogleAnalytics $analytics)
+    public function __construct(RendererInterface $renderer)
     {
-        $this->analytics = $analytics;
+        $this->renderer = $renderer;
     }
 
     /**
@@ -36,6 +40,6 @@ class Script extends AbstractHelper
      */
     public function __invoke()
     {
-        return $this->analytics->getScript();
+        return $this->renderer->getScript();
     }
 }
