@@ -41,9 +41,7 @@ class DispatcherFactoryTest extends PHPUnit_Framework_TestCase
             ->with($this->equalTo('Config'))
             ->willReturn([
                 'phpab' => [
-                    'analytics' => [
-                        'collector' => 'my-collector',
-                    ],
+                    'analytics_collector' => 'my-collector',
                 ],
             ]);
 
@@ -83,9 +81,7 @@ class DispatcherFactoryTest extends PHPUnit_Framework_TestCase
             ->with($this->equalTo('Config'))
             ->willReturn([
                 'phpab' => [
-                    'analytics' => [
-                        'collector' => 'my-collector',
-                    ],
+                    'analytics_collector' => 'my-collector',
                 ],
             ]);
 

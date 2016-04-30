@@ -25,9 +25,7 @@ class DefaultAnalyticsHandlerFactoryTest extends PHPUnit_Framework_TestCase
         $serviceLocator->expects($this->at(1))->method('has')->willReturn(true);
         $serviceLocator->expects($this->at(0))->method('get')->with($this->equalTo('Config'))->willReturn([
             'phpab' => [
-                'analytics' => [
-                    'collector' => 'my-collector',
-                ],
+                'analytics_collector' => 'my-collector',
             ],
         ]);
         $serviceLocator->expects($this->at(2))->method('get')->with($this->equalTo('my-collector'))->willReturn(

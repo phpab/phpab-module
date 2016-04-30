@@ -19,12 +19,12 @@ class DefaultAnalyticsHandlerFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $config = $serviceLocator->get('Config');
-        $collectorServiceName = $config['phpab']['analytics']['collector'];
+        $collectorServiceName = $config['phpab']['analytics_collector'];
 
         if (!$serviceLocator->has($collectorServiceName)) {
             throw new RuntimeException(sprintf(
                 'The data collector "%s" does not exists.',
-                $config['phpab']['analytics']['collector']
+                $config['phpab']['analytics_collector']
             ));
         }
 

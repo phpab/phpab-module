@@ -36,9 +36,7 @@ class ScriptFactoryTest extends PHPUnit_Framework_TestCase
             ->with($this->equalTo('Config'))
             ->willReturn([
                 'phpab' => [
-                    'analytics' => [
-                        'handler' => 'my-renderer',
-                    ],
+                    'analytics_handler' => 'my-renderer',
                 ],
             ]);
 
@@ -87,9 +85,7 @@ class ScriptFactoryTest extends PHPUnit_Framework_TestCase
             ->with($this->equalTo('Config'))
             ->willReturn([
                 'phpab' => [
-                    'analytics' => [
-                        'handler' => 'my-renderer',
-                    ],
+                    'analytics_handler' => 'my-renderer',
                 ],
             ]);
 

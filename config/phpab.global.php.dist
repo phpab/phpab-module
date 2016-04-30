@@ -2,18 +2,16 @@
 
 return [
     'phpab' => [
-        'analytics' => [
-            /**
-             * The name of the service that collects analytics.
-             */
-            'collector' => 'phpab.default_analytics_collector',
+        /**
+         * The name of the service that collects analytics.
+         */
+        'analytics_collector' => 'phpab.default_analytics_collector',
 
-            /**
-             * The name of the service that handles analytics after collecting.
-             * You can set this to null to ignore analytics.
-             */
-            'handler' => 'phpab.default_analytics_handler',
-        ],
+        /**
+         * The name of the service that handles analytics after collecting.
+         * You can set this to null to ignore analytics.
+         */
+        'analytics_handler' => 'phpab.default_analytics_handler',
 
         /**
          * The name of the service that loads the default filter for tests.

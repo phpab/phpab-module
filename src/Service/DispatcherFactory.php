@@ -26,7 +26,7 @@ class DispatcherFactory implements FactoryInterface
         $dispatcher = new Dispatcher();
 
         $config = $serviceLocator->get('Config');
-        $collectorName = $config['phpab']['analytics']['collector'];
+        $collectorName = $config['phpab']['analytics_collector'];
 
         if ($collectorName && $serviceLocator->has($collectorName)) {
             $dataCollector = $serviceLocator->get($collectorName);
