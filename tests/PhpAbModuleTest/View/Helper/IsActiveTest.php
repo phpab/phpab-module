@@ -9,8 +9,7 @@
 
 namespace PhpAbModuleTest\View\Helper\Plugin;
 
-use PhpAb\Engine\EngineInterface;
-use PhpAb\Participation\ParticipationManagerInterface;
+use PhpAb\Participation\ManagerInterface;
 use PhpAbModule\View\Helper\IsActive;
 use PHPUnit_Framework_TestCase;
 
@@ -23,7 +22,7 @@ class IsActiveTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->participationManager = $this->getMockForAbstractClass(ParticipationManagerInterface::class);
+        $this->participationManager = $this->getMockForAbstractClass(ManagerInterface::class);
     }
 
     public function testWithParticipationManagerReturningTrue()

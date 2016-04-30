@@ -9,7 +9,7 @@
 
 namespace PhpAbModuleTest\Service;
 
-use PhpAb\Participation\PercentageFilter;
+use PhpAb\Participation\Filter\Percentage;
 use PhpAbModule\Service\DefaultFilterFactory;
 use PHPUnit_Framework_TestCase;
 use Zend\ServiceManager\ServiceLocatorInterface;
@@ -26,6 +26,6 @@ class DefaultFilterFactoryTest extends PHPUnit_Framework_TestCase
         $result = $service->createService($serviceLocator);
 
         // Assert
-        $this->assertInstanceOf(PercentageFilter::class, $result);
+        $this->assertInstanceOf(Percentage::class, $result);
     }
 }

@@ -10,7 +10,7 @@
 namespace PhpAbModule\View\Helper;
 
 use PhpAb\Analytics\Renderer\AbstractGoogleAnalytics;
-use PhpAb\Analytics\Renderer\RendererInterface;
+use PhpAb\Analytics\Renderer\JavascriptRendererInterface;
 use Zend\View\Helper\AbstractHelper;
 
 /**
@@ -19,16 +19,16 @@ use Zend\View\Helper\AbstractHelper;
 class Script extends AbstractHelper
 {
     /**
-     * @var RendererInterface
+     * @var JavascriptRendererInterface
      */
     private $renderer;
 
     /**
      * Initializes a new instance of this class.
      *
-     * @param RendererInterface $renderer The analytics to render a script for.
+     * @param JavascriptRendererInterface $renderer The analytics to render a script for.
      */
-    public function __construct(RendererInterface $renderer)
+    public function __construct(JavascriptRendererInterface $renderer)
     {
         $this->renderer = $renderer;
     }
@@ -40,6 +40,10 @@ class Script extends AbstractHelper
      */
     public function __invoke()
     {
-        return $this->renderer->getScript();
+        if ($this->renderer instanceof JavascriptRendererInterface) {
+            return $this->renderer->getScript();
+        }
+
+        return '';
     }
 }

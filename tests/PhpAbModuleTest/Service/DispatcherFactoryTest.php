@@ -9,7 +9,7 @@
 
 namespace PhpAbModuleTest\Service;
 
-use PhpAb\Analytics\Google\DataCollector;
+use PhpAb\Analytics\DataCollector\Google;
 use PhpAb\Event\Dispatcher;
 use PhpAbModule\Service\DispatcherFactory;
 use PHPUnit_Framework_TestCase;
@@ -58,7 +58,7 @@ class DispatcherFactoryTest extends PHPUnit_Framework_TestCase
             ->expects($this->at(2))
             ->method('get')
             ->with($this->equalTo('my-collector'))
-            ->willReturn(new DataCollector());
+            ->willReturn(new Google());
 
         $service = new DispatcherFactory();
 

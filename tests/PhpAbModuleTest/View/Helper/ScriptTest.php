@@ -9,7 +9,7 @@
 
 namespace PhpAbModuleTest\View\Helper\Plugin;
 
-use PhpAb\Analytics\Renderer\RendererInterface;
+use PhpAb\Analytics\Renderer\JavascriptRendererInterface;
 use PhpAbModule\View\Helper\Script;
 use PHPUnit_Framework_TestCase;
 
@@ -18,7 +18,7 @@ class ScriptTest extends PHPUnit_Framework_TestCase
     public function testInvoke()
     {
         // Arrange
-        $renderer = $this->getMockForAbstractClass(RendererInterface::class);
+        $renderer = $this->getMockForAbstractClass(JavascriptRendererInterface::class);
         $helper = new Script($renderer);
 
         // Assert

@@ -11,10 +11,10 @@ namespace PhpAbModuleTest\Service;
 
 use PhpAb\Engine\EngineInterface;
 use PhpAb\Event\DispatcherInterface;
-use PhpAb\Participation\ParticipationManagerInterface;
-use PhpAb\Participation\PercentageFilter;
+use PhpAb\Participation\Filter\Percentage;
+use PhpAb\Participation\ManagerInterface;
 use PhpAb\Variant\CallbackVariant;
-use PhpAb\Variant\RandomChooser;
+use PhpAb\Variant\Chooser\RandomChooser;
 use PhpAb\Variant\SimpleVariant;
 use PhpAbModule\Service\EngineFactory;
 use PHPUnit_Framework_MockObject_MockObject;
@@ -40,7 +40,7 @@ class EngineFactoryTest extends PHPUnit_Framework_TestCase
             ];
         }
 
-        $participationManagerMock = $this->getMockForAbstractClass(ParticipationManagerInterface::class);
+        $participationManagerMock = $this->getMockForAbstractClass(ManagerInterface::class);
         $dispatcherMock = $this->getMockForAbstractClass(DispatcherInterface::class);
 
         $serviceLocator = $this->getMock(ServiceManager::class);
@@ -68,7 +68,7 @@ class EngineFactoryTest extends PHPUnit_Framework_TestCase
                 ->expects($this->at(3))
                 ->method('get')
                 ->with($this->equalTo('my_filter'))
-                ->willReturn(new PercentageFilter(100));
+                ->willReturn(new Percentage(100));
 
             $serviceLocator
                 ->expects($this->at(4))
@@ -172,7 +172,7 @@ class EngineFactoryTest extends PHPUnit_Framework_TestCase
             ->expects($this->at(4))
             ->method('get')
             ->with($this->equalTo('my_filter'))
-            ->willReturn(new PercentageFilter(100));
+            ->willReturn(new Percentage(100));
 
         $factory = new EngineFactory();
 

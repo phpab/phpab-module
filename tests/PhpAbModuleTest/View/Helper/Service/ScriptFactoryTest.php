@@ -9,7 +9,7 @@
 
 namespace PhpAbModuleTest\View\Helper\Service;
 
-use PhpAb\Analytics\Renderer\AbstractGoogleAnalytics;
+use PhpAb\Analytics\Renderer\Google\AbstractGoogleAnalytics;
 use PhpAbModule\View\Helper\Script;
 use PhpAbModule\View\Helper\Service\ScriptFactory;
 use PHPUnit_Framework_TestCase;
