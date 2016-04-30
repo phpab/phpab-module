@@ -2,10 +2,67 @@
 
 return [
     'phpab' => [
+        'analytics' => [
+            /**
+             * The name of the service that collects analytics.
+             */
+            'collector' => 'phpab.default_analytics_collector',
+
+            /**
+             * The name of the service that handles analytics after collecting.
+             * You can set this to null to ignore analytics.
+             */
+            'handler' => 'phpab.default_analytics_handler',
+        ],
+
+        /**
+         * The name of the service that loads the default filter for tests.
+         * You can set this to null to ignore the default filter.
+         */
         'default_filter' => 'phpab.default_filter',
+
+        /**
+         * The name of the service that loads the default variant chooser for tests.
+         * You can set this to null to ignore the default variant chooser.
+         */
         'default_variant_chooser' => 'phpab.default_variant_chooser',
+
+        /**
+         * The name of the storage that should be loaded.
+         * For a list with options go to the documentation: https://phpab.github.io/
+         */
         'storage' => 'runtime',
+
+        /**
+         * An array with options for the storage providers.
+         * The options are defined in the documentation: https://phpab.github.io/
+         */
         'storage_options' => [],
+
+        /**
+         * An array with tests, how to define these tests is defined in the documentation: https://phpab.github.io/
+         */
         'tests' => [],
+    ],
+    'service_manager' => [
+        'invokables' => [
+            'phpab.analytics_data_collector' => 'PhpAb\Analytics\Google\DataCollector',
+        ],
+        'factories' => [
+            'phpab.default_analytics_handler' => function($serviceManager) {
+                $config = $serviceManager->get('Config');
+
+                if (!$serviceManager->has($config['phpab']['analytics']['collector'])) {
+                    throw new RuntimeException(sprintf(
+                        'The data collector "%s" does not exists.',
+                        $config['phpab']['analytics']['collector']
+                    ));
+                }
+
+                $analyticsData = $serviceManager->get($config['phpab']['analytics']['collector']);
+
+                return new \PhpAb\Analytics\Renderer\GoogleUniversalAnalytics($analyticsData->getTestsData());
+            },
+        ],
     ],
 ];

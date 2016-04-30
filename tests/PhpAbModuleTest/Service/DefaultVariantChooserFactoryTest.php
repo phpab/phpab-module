@@ -9,7 +9,7 @@
 
 namespace PhpAbModuleTest\Service;
 
-use PhpAb\Variant\RandomChooser;
+use PhpAb\Variant\Chooser\RandomChooser;
 use PhpAbModule\Service\DefaultVariantChooserFactory;
 use PHPUnit_Framework_TestCase;
 use Zend\ServiceManager\ServiceLocatorInterface;

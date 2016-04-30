@@ -9,7 +9,7 @@
 
 namespace PhpAbModule\View\Helper;
 
-use PhpAb\Participation\ParticipationManagerInterface;
+use PhpAb\Participation\ManagerInterface;
 use Zend\View\Helper\AbstractHelper;
 
 /**
@@ -18,16 +18,16 @@ use Zend\View\Helper\AbstractHelper;
 class IsActive extends AbstractHelper
 {
     /**
-     * @var ParticipationManagerInterface The participation manager used to check participation.
+     * @var ManagerInterface The participation manager used to check participation.
      */
     private $participationManager;
 
     /**
      * Initializes a new instance of this class.
      *
-     * @param ParticipationManagerInterface $participationManager The participation manager used to check participation.
+     * @param ManagerInterface $participationManager The participation manager used to check participation.
      */
-    public function __construct(ParticipationManagerInterface $participationManager)
+    public function __construct(ManagerInterface $participationManager)
     {
         $this->participationManager = $participationManager;
     }

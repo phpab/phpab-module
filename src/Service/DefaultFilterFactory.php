@@ -9,7 +9,7 @@
 
 namespace PhpAbModule\Service;
 
-use PhpAb\Participation\PercentageFilter;
+use PhpAb\Participation\Filter\Percentage;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -17,6 +17,6 @@ class DefaultFilterFactory implements FactoryInterface
 {
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        return new PercentageFilter(100);
+        return new Percentage(100);
     }
 }

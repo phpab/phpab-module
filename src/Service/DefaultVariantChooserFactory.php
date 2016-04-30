@@ -9,7 +9,7 @@
 
 namespace PhpAbModule\Service;
 
-use PhpAb\Variant\RandomChooser;
+use PhpAb\Variant\Chooser\RandomChooser;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 

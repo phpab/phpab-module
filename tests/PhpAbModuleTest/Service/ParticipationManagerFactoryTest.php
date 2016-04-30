@@ -9,7 +9,7 @@
 
 namespace PhpAbModuleTest\Service;
 
-use PhpAb\Participation\Manager;
+use PhpAb\Participation\ManagerInterface;
 use PhpAb\Storage\Runtime;
 use PhpAbModule\Service\ParticipationManagerFactory;
 use PHPUnit_Framework_TestCase;
@@ -38,7 +38,7 @@ class ParticipationManagerFactoryTest extends PHPUnit_Framework_TestCase
         $result = $service->createService($serviceLocator);
 
         // Assert
-        $this->assertInstanceOf(Manager::class, $result);
+        $this->assertInstanceOf(ManagerInterface::class, $result);
     }
 
     /**

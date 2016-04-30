@@ -11,6 +11,7 @@ namespace PhpAbModule\Service;
 
 use PhpAb\Engine\Engine;
 use PhpAb\Event\Dispatcher;
+use PhpAb\Event\SubscriberInterface;
 use PhpAb\Storage\Cookie;
 use PhpAb\Storage\Runtime;
 use PhpAb\Storage\Session;
@@ -22,6 +23,24 @@ class DispatcherFactory implements FactoryInterface
 {
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        return new Dispatcher();
+        $dispatcher = new Dispatcher();
+
+        $config = $serviceLocator->get('Config');
+        $collectorName = $config['phpab']['analytics']['collector'];
+
+        if ($collectorName && $serviceLocator->has($collectorName)) {
+            $dataCollector = $serviceLocator->get($collectorName);
+
+            if (!$dataCollector instanceof SubscriberInterface) {
+                throw new RuntimeException(sprintf(
+                    'The data collector is not an instance of %s',
+                    SubscriberInterface::class
+                ));
+            }
+
+            $dispatcher->addSubscriber($dataCollector);
+        }
+
+        return $dispatcher;
     }
 }
