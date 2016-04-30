@@ -59,8 +59,8 @@ return [
             'phpab.storage' => 'PhpAbModule\\Service\\StorageFactory',
         ],
         'invokables' => [
-            'phpab.default_analytics_collector' => 'PhpAb\\Analytics\\DataCollector\\\Generic',
-            'phpab.analytics_data_collector' => 'PhpAb\Analytics\Google\DataCollector',
+            'phpab.default_analytics_collector' => 'PhpAb\\Analytics\\DataCollector\\Generic',
+            'phpab.analytics_data_collector' => 'PhpAb\\Analytics\\Google\\DataCollector',
         ],
     ],
     'view_helpers' => [

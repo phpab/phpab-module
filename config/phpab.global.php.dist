@@ -44,25 +44,4 @@ return [
          */
         'tests' => [],
     ],
-    'service_manager' => [
-        'invokables' => [
-            'phpab.analytics_data_collector' => 'PhpAb\Analytics\Google\DataCollector',
-        ],
-        'factories' => [
-            'phpab.default_analytics_handler' => function($serviceManager) {
-                $config = $serviceManager->get('Config');
-
-                if (!$serviceManager->has($config['phpab']['analytics']['collector'])) {
-                    throw new RuntimeException(sprintf(
-                        'The data collector "%s" does not exists.',
-                        $config['phpab']['analytics']['collector']
-                    ));
-                }
-
-                $analyticsData = $serviceManager->get($config['phpab']['analytics']['collector']);
-
-                return new \PhpAb\Analytics\Renderer\GoogleUniversalAnalytics($analyticsData->getTestsData());
-            },
-        ],
-    ],
 ];

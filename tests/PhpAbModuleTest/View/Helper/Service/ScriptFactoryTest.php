@@ -37,7 +37,7 @@ class ScriptFactoryTest extends PHPUnit_Framework_TestCase
             ->willReturn([
                 'phpab' => [
                     'analytics' => [
-                        'renderer' => 'my-renderer',
+                        'handler' => 'my-renderer',
                     ],
                 ],
             ]);
@@ -88,7 +88,7 @@ class ScriptFactoryTest extends PHPUnit_Framework_TestCase
             ->willReturn([
                 'phpab' => [
                     'analytics' => [
-                        'renderer' => 'my-renderer',
+                        'handler' => 'my-renderer',
                     ],
                 ],
             ]);

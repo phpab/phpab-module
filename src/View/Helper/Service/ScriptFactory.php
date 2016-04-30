@@ -22,14 +22,14 @@ class ScriptFactory implements FactoryInterface
 
         $config = $serviceManager->get('Config');
 
-        if (!$serviceManager->has($config['phpab']['analytics']['renderer'])) {
+        if (!$serviceManager->has($config['phpab']['analytics']['handler'])) {
             throw new RuntimeException(sprintf(
                 'The data renderer "%s" does not exists.',
-                $config['phpab']['analytics']['renderer']
+                $config['phpab']['analytics']['handler']
             ));
         }
 
-        $renderer = $serviceManager->get($config['phpab']['analytics']['renderer']);
+        $renderer = $serviceManager->get($config['phpab']['analytics']['handler']);
 
         return new Script($renderer);
     }
