@@ -9,9 +9,19 @@
 
 namespace PhpAbModuleTest\View\Helper\Plugin;
 
+use PhpAb\Analytics\Renderer\Google\AbstractGoogleAnalytics;
 use PhpAb\Analytics\Renderer\JavascriptRendererInterface;
+use PhpAb\Analytics\Renderer\RendererInterface;
 use PhpAbModule\View\Helper\Script;
 use PHPUnit_Framework_TestCase;
+
+class Handler implements RendererInterface
+{
+    public function getParticipations()
+    {
+        return [];
+    }
+}
 
 class ScriptTest extends PHPUnit_Framework_TestCase
 {
@@ -26,5 +36,18 @@ class ScriptTest extends PHPUnit_Framework_TestCase
 
         // Act
         $helper->__invoke();
+    }
+
+    public function testInvokeWithoutNonRenderer()
+    {
+        // Arrange
+        $renderer = new Handler();
+        $helper = new Script($renderer);
+
+        // Act
+        $result = $helper->__invoke();
+
+        // Assert
+        $this->assertEquals('', $result);
     }
 }
