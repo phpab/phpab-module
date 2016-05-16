@@ -10,7 +10,7 @@
 namespace PhpAbModuleTest\Service;
 
 use PhpAb\Participation\ManagerInterface;
-use PhpAb\Storage\Runtime;
+use PhpAb\Storage\Adapter\Runtime;
 use PhpAbModule\Service\ParticipationManagerFactory;
 use PHPUnit_Framework_TestCase;
 use Zend\ServiceManager\ServiceLocatorInterface;

@@ -9,10 +9,11 @@
 
 namespace PhpAbModule\Service;
 
-use PhpAb\Engine\Engine;
-use PhpAb\Storage\Cookie;
-use PhpAb\Storage\Runtime;
-use PhpAb\Storage\Session;
+use PhpAb\Storage\Adapter\Cookie;
+use PhpAb\Storage\Adapter\Runtime;
+use PhpAb\Storage\Adapter\Session;
+use PhpAb\Storage\Adapter\ZendSession;
+use PhpAb\Storage\Storage;
 use RuntimeException;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
@@ -31,21 +32,25 @@ class StorageFactory implements FactoryInterface
 
         switch ($config['phpab']['storage']) {
             case 'cookie':
-                $storage = new Cookie($options['name'], $options['ttl']);
+                $adapter = new Cookie($options['name'], $options['ttl']);
                 break;
 
             case 'runtime':
-                $storage = new Runtime();
+                $adapter = new Runtime();
                 break;
 
             case 'session':
-                $storage = new Session($options['name']);
+                $adapter = new ZendSession($options['name']);
                 break;
 
             default:
-                throw new RuntimeException('Invalid storage provider set: ' . $config['phpab']['storage']);
+                throw new RuntimeException('Invalid storage adapter set: ' . $config['phpab']['storage']);
         }
 
-        return $storage;
+        return new Storage($adapter);
+    }
+
+    private function loadContainer(ServiceLocatorInterface $serviceLocator)
+    {
     }
 }
